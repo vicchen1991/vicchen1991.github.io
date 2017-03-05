@@ -1,0 +1,135 @@
+---
+title: February 28, 2017 - In-Class Project
+author: Chang Chen
+date: '2017-02-28'
+slug: february-28-2017-in-class-project
+---
+
+###1
+
+```{r}
+ckm_nodes<-read.csv("ckm_nodes.csv")
+```
+
+###2
+
+```{r}
+table(ckm_nodes$adoption_date,exclude = NULL)
+```
+
+The number pf doctors began prescribing tetracycline in each month of the study can be found in the table. 16 are never prescribed. 121 are NAs.
+
+###3
+
+```{r}
+test<-ckm_nodes
+test$num<-1:246
+test<-test[,c(2,14)]
+test<-test[!is.na(test$adoption_date),]
+x <- vector(mode="numeric")
+x<-test$num
+x
+cleaned_nodes<-ckm_nodes
+cleaned_nodes<-cleaned_nodes[x,]
+```
+
+###4
+
+```{r}
+adopters<-function (month, not.yet=FALSE) {
+  if (not.yet==FALSE) {
+    return(as.vector(cleaned_nodes$adoption_date==month))
+  } else {
+    return(as.vector(cleaned_nodes$adoption_date>month))
+  }
+}
+adopters(2)
+sum(adopters(2))
+adopters(14,not.yet = TRUE)
+sum(adopters(14,not.yet = TRUE))
+```
+
+###5
+
+```{r}
+matrix<-read.table("ckm_network.dat")
+clean_network<-matrix[x,x]
+```
+
+###6
+
+```{r}
+contact <- vector(mode="numeric")
+contact<-apply(clean_network,1,sum)
+```
+
+###Part 2
+
+###7
+
+####(a)
+
+```{r}
+count_peer_pressure<-function(index,month) {
+  k<-0
+  v<-which(clean_network[index,]==1)
+   for (i in v) {
+     if (cleaned_nodes$adoption_date[i]<=month) {
+       k=k+1
+     }
+   }
+  return(k)
+}
+count_peer_pressure(37,5)
+```
+
+####(b)
+
+```{r}
+prop_peer_pressure<-function(index,month) {
+k<-count_peer_pressure(index,month)
+  if (k!=0) {
+  return(k/length(which(clean_network[index,]==1)))
+  } else {return(NaN)}
+}
+prop_peer_pressure(37,5)
+prop_peer_pressure(102,14)
+```
+
+###8
+
+####(a)
+
+```{r}
+app<-function(month){
+  vec<-which(adopters(month))
+  vec1<-which(adopters(month,not.yet = TRUE))
+  k <- vector(mode="numeric",length = length(vec))
+  k1 <- vector(mode="numeric",length = length(vec1))
+  for (i in 1:length(vec)) {
+        k[i]<-prop_peer_pressure(vec[i],month)
+  }
+  for (i in 1:length(vec1)) {
+        k1[i]<-prop_peer_pressure(vec1[i],month)
+  }
+  return(c(mean(k,na.rm = TRUE), mean(k1,na.rm = TRUE)))
+}
+```
+
+####(b)
+
+```{r}
+plot1<-matrix(1:17, nrow=17,ncol=1)
+plot2<-apply(plot1, 1, function(x) app(x))
+plot3<-matrix(plot2, ncol=2,byrow=TRUE)
+plot3<-as.data.frame(plot3)
+plot3$num<-1:17
+plot3$diff<-plot3$V1-plot3$V2
+plot(plot3[,1],type = "l", ylab = "Proportion",col=1, main="Proportions in/after the month")
+lines(plot3[,2],col=2)
+legend("bottomright",c("in the month","after the month"),col=c(1,2),lwd=1)
+plot(plot3[,4],type="l", ylab = "Proportion", main = "Difference Plot")
+abline(h=0)
+```
+
+The curve in the "Difference Plot" centers around the 0 line, which means the doctors who adopt in a given month do not consistently have more contacts who are already prescribing than the non-adopters.
