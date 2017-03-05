@@ -1,0 +1,26 @@
+---
+title: March 7, 2017 - Pre-Class
+author: Chang Chen
+date: '2017-03-05'
+slug: March-7-2017-pre-class
+---
+
+```{r}
+ mean.jackknife <- function(a_vector) {
+  u<-rep(0,length(a_vector))
+  for (i in 1:length(a_vector)){
+    u[i]<-mean(a_vector[-i])
+  }
+  jack.bias<-(length(a_vector)-1)*(mean(u)-mean(a_vector))
+  jackknife.variance<-((length(a_vector) - 1)/length(a_vector)) * sum((u - mean(u))^2)
+  jackknife.stderr<-sqrt(jackknife.variance)
+  return(jackknife.stderr)
+}
+```
+
+```{r}
+some_normals <- rnorm(100,mean=7,sd=5)
+mean(some_normals)
+(formula_se_of_mean <- sd(some_normals)/sqrt(length(some_normals)))
+all.equal(formula_se_of_mean,mean.jackknife(some_normals))
+```
