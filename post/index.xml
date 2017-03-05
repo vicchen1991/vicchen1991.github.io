@@ -22,20 +22,19 @@
 &lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
 &lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt; mean.jackknife &amp;lt;- function(a_vector) {
-  u&amp;lt;-rep(0,length(a_vector))
+  vec&amp;lt;-rep(0,length(a_vector))
   for (i in 1:length(a_vector)){
-    u[i]&amp;lt;-mean(a_vector[-i])
+    vec[i]&amp;lt;-mean(a_vector[-i])
   }
-  jack.bias&amp;lt;-(length(a_vector)-1)*(mean(u)-mean(a_vector))
-  jackknife.variance&amp;lt;-((length(a_vector) - 1)/length(a_vector)) * sum((u - mean(u))^2)
+  jackknife.variance&amp;lt;-((length(a_vector) - 1)/length(a_vector)) * sum((vec - mean(vec))^2)
   jackknife.stderr&amp;lt;-sqrt(jackknife.variance)
   return(jackknife.stderr)
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;some_normals &amp;lt;- rnorm(100,mean=7,sd=5)
 mean(some_normals)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 6.022163&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 6.265899&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(formula_se_of_mean &amp;lt;- sd(some_normals)/sqrt(length(some_normals)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.5371734&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.6153135&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(formula_se_of_mean,mean.jackknife(some_normals))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
 </description>

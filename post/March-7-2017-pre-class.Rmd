@@ -7,12 +7,11 @@ slug: March-7-2017-pre-class
 
 ```{r}
  mean.jackknife <- function(a_vector) {
-  u<-rep(0,length(a_vector))
+  vec<-rep(0,length(a_vector))
   for (i in 1:length(a_vector)){
-    u[i]<-mean(a_vector[-i])
+    vec[i]<-mean(a_vector[-i])
   }
-  jack.bias<-(length(a_vector)-1)*(mean(u)-mean(a_vector))
-  jackknife.variance<-((length(a_vector) - 1)/length(a_vector)) * sum((u - mean(u))^2)
+  jackknife.variance<-((length(a_vector) - 1)/length(a_vector)) * sum((vec - mean(vec))^2)
   jackknife.stderr<-sqrt(jackknife.variance)
   return(jackknife.stderr)
 }
