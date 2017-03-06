@@ -26,13 +26,13 @@
   <link rel="stylesheet" href="/css/hugo-academic.css">
   
 
-  <link rel="alternate" href="https://vicchen1991.github.io/index.xml" type="application/rss+xml" title="Chang Chen ScM">
-  <link rel="feed" href="https://vicchen1991.github.io/index.xml" type="application/rss+xml" title="Chang Chen ScM">
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Chang Chen ScM">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Chang Chen ScM">
 
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 
-  <link rel="canonical" href="https://vicchen1991.github.io/">
+  <link rel="canonical" href="/">
 
   
 
@@ -310,6 +310,99 @@
     <ul class="fa-ul">
       
     </ul>
+    
+
+  </div>
+</div>
+
+    </div>
+  </section>
+
+  
+  
+  <section id="posts" class="home-section">
+    <div class="container">
+      
+
+
+
+
+<div class="row">
+  <div class="col-xs-12 col-md-4 section-heading">
+
+    <h1>Recent Posts</h1>
+    
+    
+
+  </div>
+  <div class="col-xs-12 col-md-8">
+
+    
+
+    
+      
+        
+        
+
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="/post/March-7-2017-pre-class/" itemprop="url">March 7, 2017 - Pre-Class</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-03-05 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Sun, Mar 5, 2017
+    </time>
+  </span>
+
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    <!-- BLOGDOWN-HEAD -->
+<!-- /BLOGDOWN-HEAD -->
+
+<!-- BLOGDOWN-BODY-BEFORE -->
+<!-- /BLOGDOWN-BODY-BEFORE -->
+<pre class="r"><code> mean.jackknife &lt;- function(a_vector) {
+  vec&lt;-rep(0,length(a_vector))
+  for (i in 1:length(a_vector)){
+    vec[i]&lt;-mean(a_vector[-i])
+  }
+  jackknife.variance&lt;-((length(a_vector) - 1)/length(a_vector)) * sum((vec - mean(vec))^2)
+  jackknife.stderr&lt;-sqrt(jackknife.variance)
+  return(jackknife.stderr)
+}</code></pre>
+<pre class="r"><code>some_normals &lt;- rnorm(100,mean=7,sd=5)
+mean(some_normals)</code></pre>
+<pre><code>## [1] 6.265899</code></pre>
+<pre class="r"><code>(formula_se_of_mean &lt;- sd(some_normals)/sqrt(length(some_normals)))</code></pre>
+<pre><code>## [1] 0.6153135</code></pre>
+<pre class="r"><code>all.equal(formula_se_of_mean,mean.jackknife(some_normals))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+
+    
+  </div>
+  <p class="read-more">
+    <a href="/post/March-7-2017-pre-class/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
     
 
   </div>

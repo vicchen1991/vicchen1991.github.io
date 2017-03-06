@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Chang Chen ScM</title>
-    <link>https://vicchen1991.github.io/post/index.xml</link>
+    <link>/post/index.xml</link>
     <description>Recent content in Posts on Chang Chen ScM</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>March 7, 2017 - Pre-Class</title>
-      <link>https://vicchen1991.github.io/post/March-7-2017-pre-class/</link>
+      <link>/post/March-7-2017-pre-class/</link>
       <pubDate>Sun, 05 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://vicchen1991.github.io/post/March-7-2017-pre-class/</guid>
+      <guid>/post/March-7-2017-pre-class/</guid>
       <description>&lt;!-- BLOGDOWN-HEAD --&gt;
 &lt;!-- /BLOGDOWN-HEAD --&gt;
 
