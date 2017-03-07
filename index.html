@@ -349,6 +349,47 @@
   
   
   <h3 class="article-title" itemprop="name">
+    <a href="/post/february-28-2017-in-class-project/" itemprop="url">February 28, 2017 - In-Class Project</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-03-06 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Mon, Mar 6, 2017
+    </time>
+  </span>
+
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    1 ckm_nodes&lt;-read.csv(&quot;ckm_nodes.csv&quot;)  2 table(ckm_nodes$adoption_date,exclude = NULL) ## ## 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 ## 11 9 9 11 11 11 13 7 4 1 5 3 3 4 4 ## 16 17 Inf &lt;NA&gt; ## 2 1 16 121 The number pf doctors began prescribing tetracycline in each month of the study can be found in the table. 16 are never prescribed.
+    
+  </div>
+  <p class="read-more">
+    <a href="/post/february-28-2017-in-class-project/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+        
+        
+
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
     <a href="/post/March-7-2017-pre-class/" itemprop="url">March 7, 2017 - Pre-Class</a>
   </h3>
   
@@ -387,9 +428,9 @@
 }</code></pre>
 <pre class="r"><code>some_normals &lt;- rnorm(100,mean=7,sd=5)
 mean(some_normals)</code></pre>
-<pre><code>## [1] 6.265899</code></pre>
+<pre><code>## [1] 7.26039</code></pre>
 <pre class="r"><code>(formula_se_of_mean &lt;- sd(some_normals)/sqrt(length(some_normals)))</code></pre>
-<pre><code>## [1] 0.6153135</code></pre>
+<pre><code>## [1] 0.4698871</code></pre>
 <pre class="r"><code>all.equal(formula_se_of_mean,mean.jackknife(some_normals))</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 
