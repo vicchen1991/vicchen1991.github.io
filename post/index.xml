@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Chang Chen ScM</title>
-    <link>/post/index.xml</link>
+    <link>https://vicchen1991.github.io/post/index.xml</link>
     <description>Recent content in Posts on Chang Chen ScM</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -12,10 +12,10 @@
     
     <item>
       <title>February 28, 2017 - In-Class Project</title>
-      <link>/post/february-28-2017-in-class-project/</link>
+      <link>https://vicchen1991.github.io/post/february-28-2017-in-class-project/</link>
       <pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/february-28-2017-in-class-project/</guid>
+      <guid>https://vicchen1991.github.io/post/february-28-2017-in-class-project/</guid>
       <description>&lt;div id=&#34;section&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;1&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ckm_nodes&amp;lt;-read.csv(&amp;quot;ckm_nodes.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
@@ -163,10 +163,10 @@ plot3$diff&amp;lt;-plot3$V1-plot3$V2
 plot(plot3[,1],type = &amp;quot;l&amp;quot;, ylab = &amp;quot;Proportion&amp;quot;,col=1, main=&amp;quot;Proportions in/after the month&amp;quot;)
 lines(plot3[,2],col=2)
 legend(&amp;quot;bottomright&amp;quot;,c(&amp;quot;in the month&amp;quot;,&amp;quot;after the month&amp;quot;),col=c(1,2),lwd=1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vicchen1991.github.io/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(plot3[,4],type=&amp;quot;l&amp;quot;, ylab = &amp;quot;Proportion&amp;quot;, main = &amp;quot;Difference Plot&amp;quot;)
 abline(h=0)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vicchen1991.github.io/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The curve in the “Difference Plot” centers around the 0 line, which means the doctors who adopt in a given month do not consistently have more contacts who are already prescribing than the non-adopters.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -175,10 +175,10 @@ abline(h=0)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>March 7, 2017 - Pre-Class</title>
-      <link>/post/March-7-2017-pre-class/</link>
+      <link>https://vicchen1991.github.io/post/March-7-2017-pre-class/</link>
       <pubDate>Sun, 05 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/March-7-2017-pre-class/</guid>
+      <guid>https://vicchen1991.github.io/post/March-7-2017-pre-class/</guid>
       <description>&lt;!-- BLOGDOWN-HEAD --&gt;
 &lt;!-- /BLOGDOWN-HEAD --&gt;
 
@@ -195,9 +195,9 @@ abline(h=0)&lt;/code&gt;&lt;/pre&gt;
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;some_normals &amp;lt;- rnorm(100,mean=7,sd=5)
 mean(some_normals)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 7.325387&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 7.206752&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(formula_se_of_mean &amp;lt;- sd(some_normals)/sqrt(length(some_normals)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.5145612&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.4868469&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(formula_se_of_mean,mean.jackknife(some_normals))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
 </description>
