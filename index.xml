@@ -41,6 +41,169 @@ mean(some_normals)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
+      <title>February 28, 2017 - In-Class Project</title>
+      <link>/post/february-28-2017-in-class-project/</link>
+      <pubDate>Tue, 28 Feb 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/post/february-28-2017-in-class-project/</guid>
+      <description>&lt;div id=&#34;section&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;1&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ckm_nodes&amp;lt;-read.csv(&amp;quot;ckm_nodes.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;2&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;table(ckm_nodes$adoption_date,exclude = NULL)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15 
+##   11    9    9   11   11   11   13    7    4    1    5    3    3    4    4 
+##   16   17  Inf &amp;lt;NA&amp;gt; 
+##    2    1   16  121&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The number pf doctors began prescribing tetracycline in each month of the study can be found in the table. 16 are never prescribed. 121 are NAs.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-2&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;3&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;test&amp;lt;-ckm_nodes
+test$num&amp;lt;-1:246
+test&amp;lt;-test[,c(2,14)]
+test&amp;lt;-test[!is.na(test$adoption_date),]
+x &amp;lt;- vector(mode=&amp;quot;numeric&amp;quot;)
+x&amp;lt;-test$num
+x&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+##  [18]  18  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34
+##  [35]  35  36  37  38  39  58  70  72  73  74  75  76  77  78  79  80  81
+##  [52]  82  91  92  93  94  95  96  97  98 105 108 119 121 122 123 124 125
+##  [69] 126 127 128 129 130 131 132 133 134 135 136 137 151 152 153 154 155
+##  [86] 156 168 169 170 171 172 173 174 175 176 177 178 179 180 181 182 195
+## [103] 196 197 198 199 200 212 213 214 215 216 217 218 219 220 221 222 223
+## [120] 224 225 226 227 229 241&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cleaned_nodes&amp;lt;-ckm_nodes
+cleaned_nodes&amp;lt;-cleaned_nodes[x,]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-3&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;4&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;adopters&amp;lt;-function (month, not.yet=FALSE) {
+  if (not.yet==FALSE) {
+    return(as.vector(cleaned_nodes$adoption_date==month))
+  } else {
+    return(as.vector(cleaned_nodes$adoption_date&amp;gt;month))
+  }
+}
+adopters(2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+##  [12] FALSE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+##  [23] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [34] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [45] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [56]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [67] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE FALSE
+##  [78] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE
+##  [89] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [100] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+## [111] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [122] FALSE FALSE FALSE FALSE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum(adopters(2))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 9&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;adopters(14,not.yet = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   [1] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+##  [12] FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE
+##  [23] FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE
+##  [34] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE
+##  [45] FALSE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE FALSE FALSE
+##  [56] FALSE FALSE FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE FALSE
+##  [67]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+##  [78] FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE
+##  [89]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE  TRUE  TRUE FALSE FALSE
+## [100] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE
+## [111] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+## [122] FALSE FALSE FALSE  TRUE&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum(adopters(14,not.yet = TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 23&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-4&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;5&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;matrix&amp;lt;-read.table(&amp;quot;ckm_network.dat&amp;quot;)
+clean_network&amp;lt;-matrix[x,x]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-5&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;6&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;contact &amp;lt;- vector(mode=&amp;quot;numeric&amp;quot;)
+contact&amp;lt;-apply(clean_network,1,sum)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;part-2&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Part 2&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-6&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;7&lt;/h3&gt;
+&lt;div id=&#34;a&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;(a)&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;count_peer_pressure&amp;lt;-function(index,month) {
+  k&amp;lt;-0
+  v&amp;lt;-which(clean_network[index,]==1)
+   for (i in v) {
+     if (cleaned_nodes$adoption_date[i]&amp;lt;=month) {
+       k=k+1
+     }
+   }
+  return(k)
+}
+count_peer_pressure(37,5)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;b&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;(b)&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prop_peer_pressure&amp;lt;-function(index,month) {
+k&amp;lt;-count_peer_pressure(index,month)
+  if (k!=0) {
+  return(k/length(which(clean_network[index,]==1)))
+  } else {return(NaN)}
+}
+prop_peer_pressure(37,5)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.6&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prop_peer_pressure(102,14)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] NaN&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;section-7&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;8&lt;/h3&gt;
+&lt;div id=&#34;a-1&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;(a)&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;app&amp;lt;-function(month){
+  vec&amp;lt;-which(adopters(month))
+  vec1&amp;lt;-which(adopters(month,not.yet = TRUE))
+  k &amp;lt;- vector(mode=&amp;quot;numeric&amp;quot;,length = length(vec))
+  k1 &amp;lt;- vector(mode=&amp;quot;numeric&amp;quot;,length = length(vec1))
+  for (i in 1:length(vec)) {
+        k[i]&amp;lt;-prop_peer_pressure(vec[i],month)
+  }
+  for (i in 1:length(vec1)) {
+        k1[i]&amp;lt;-prop_peer_pressure(vec1[i],month)
+  }
+  return(c(mean(k,na.rm = TRUE), mean(k1,na.rm = TRUE)))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;b-1&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;(b)&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot1&amp;lt;-matrix(1:17, nrow=17,ncol=1)
+plot2&amp;lt;-apply(plot1, 1, function(x) app(x))
+plot3&amp;lt;-matrix(plot2, ncol=2,byrow=TRUE)
+plot3&amp;lt;-as.data.frame(plot3)
+plot3$num&amp;lt;-1:17
+plot3$diff&amp;lt;-plot3$V1-plot3$V2
+plot(plot3[,1],type = &amp;quot;l&amp;quot;, ylab = &amp;quot;Proportion&amp;quot;,col=1, main=&amp;quot;Proportions in/after the month&amp;quot;)
+lines(plot3[,2],col=2)
+legend(&amp;quot;bottomright&amp;quot;,c(&amp;quot;in the month&amp;quot;,&amp;quot;after the month&amp;quot;),col=c(1,2),lwd=1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/February-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(plot3[,4],type=&amp;quot;l&amp;quot;, ylab = &amp;quot;Proportion&amp;quot;, main = &amp;quot;Difference Plot&amp;quot;)
+abline(h=0)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/February-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The curve in the “Difference Plot” centers around the 0 line, which means the doctors who adopt in a given month do not consistently have more contacts who are already prescribing than the non-adopters.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>About</title>
       <link>/about/</link>
       <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
