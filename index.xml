@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Chang Chen ScM on Chang Chen ScM</title>
-    <link>/index.xml</link>
+    <link>https://vicchen1991.github.io/index.xml</link>
     <description>Recent content in Chang Chen ScM on Chang Chen ScM</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
@@ -11,11 +11,223 @@
     <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>March 7, 2017 In-Class Project</title>
+      <link>https://vicchen1991.github.io/post/march-7-2017-in-class-project/</link>
+      <pubDate>Mon, 13 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://vicchen1991.github.io/post/march-7-2017-in-class-project/</guid>
+      <description>&lt;!-- BLOGDOWN-HEAD --&gt;
+&lt;!-- /BLOGDOWN-HEAD --&gt;
+
+&lt;!-- BLOGDOWN-BODY-BEFORE --&gt;
+&lt;!-- /BLOGDOWN-BODY-BEFORE --&gt;
+&lt;div id=&#34;jackknife-for-gamma-parameters&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Jackknife for Gamma Parameters&lt;/h2&gt;
+&lt;p&gt;Recall our friend the method of moments estimator:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gamma.est &amp;lt;- function(the_data) {
+  m &amp;lt;- mean(the_data)
+  v &amp;lt;- var(the_data)
+  a &amp;lt;- m^2/v
+  s &amp;lt;- v/m
+  return(c(a=a,s=s))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;jackknife-for-gamma-parameters-function&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Jackknife for Gamma Parameters Function&lt;/h3&gt;
+&lt;p&gt;Write a function called &lt;code&gt;gamma.jackknife&lt;/code&gt; that takes argument &lt;code&gt;a_vector&lt;/code&gt; and returns jackknife standard error estimates on the gamma parameters.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;gamma.jackknife &amp;lt;- function(a_vector) {
+  n1=length(a_vector)
+  estimate_a=c(n1)
+  estimate_s=c(n1)
+  for(i in 1:n1)
+  {
+    estimate_a[i]=gamma.est(a_vector[-i])[1]
+    estimate_s[i]=gamma.est(a_vector[-i])[2]
+  }
+  se_a=sqrt((var(estimate_a))*((n1-1)^2)/n1)
+  se_s=sqrt((var(estimate_s))*((n1-1)^2)/n1)
+  jackknife.stderrs=c(se_a,se_s)
+  return(jackknife.stderrs)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;jackknife-for-gamma-parameters-example&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Jackknife for Gamma Parameters Example&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;input &amp;lt;- rgamma(1000, shape=0.1, scale=10)
+gamma.est(input)
+gamma.jackknife(input)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;jackknife-for-linear-regression-coefficients&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Jackknife for linear regression coefficients&lt;/h2&gt;
+&lt;p&gt;Write a function called &lt;code&gt;jackknife.lm&lt;/code&gt; that takes arguments &lt;code&gt;df&lt;/code&gt;, &lt;code&gt;formula&lt;/code&gt; and &lt;code&gt;p&lt;/code&gt; and returns jackknife standard error estimates on the coefficients of a linear regression model.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;jackknife.lm &amp;lt;- function(df,formula,p) {
+ n=nrow(df)
+ jackknife.ests=matrix(0,nrow=p,ncol=n)
+ for (i in 1:n){
+   new.coefs=lm(as.formula(formula),data=df[-i,])$coefficients
+   jackknife.ests[,i]=new.coefs
+ }
+ var=apply(jackknife.ests,1,var)
+ jackknife.var=(n-1)^2/n*var
+ jackknife.stderr=sqrt(jackknife.var)
+  return(jackknife.stderr)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;jackknife-for-linear-regression-coefficients-example&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Jackknife for linear regression coefficients Example&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;output &amp;lt;- 1.2 + 0.6*input +  rnorm(1000, 0, 2.1)
+data &amp;lt;- data.frame(output,input)
+my.lm &amp;lt;- lm(output~input, data=data)
+coefficients(my.lm)
+# &amp;quot;Official&amp;quot; standard errors
+sqrt(diag(vcov(my.lm)))
+jackknife.lm(df=data,formula=&amp;quot;output~input&amp;quot;,p=2)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;refactoring-the-jackknife&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Refactoring the Jackknife&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Omitting one point or row is a common sub-task&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;The general pattern:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;figure out the size of the data
+for each case
+   omit that case
+   repeat some estimation and get a vector of numbers
+take variances across cases
+scale up variances
+take the square roots&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Refactor by extracting the common “omit one” operation&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Refactor by defining a general “jackknife” operation&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;the-common-operation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;The Common Operation&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;em&gt;Problem&lt;/em&gt;: Omit one particular data point from a larger structure&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;em&gt;Difficulty&lt;/em&gt;: Do we need a comma in the index or not?&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;em&gt;Solution&lt;/em&gt;: Works for vectors, lists, 1D and 2D arrays, matrices, data frames:&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;goal&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Goal:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Make the function select the correct dimensions
+&lt;ul&gt;
+&lt;li&gt;length for a 1d object&lt;/li&gt;
+&lt;li&gt;number of rows for 2d&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Write a function &lt;code&gt;omit.case&lt;/code&gt; that omits a point given the data and returns the data minus that point. Make sure it can handle higher dimensions.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;      omit.case &amp;lt;- function(the_data,omitted_point) {
+    # This should take the data and omit one point at a time and return the new data
+        dim=data(the_data)
+        if (is.null(dim)||length(dim)==1){
+          return(the_data[-omitted_point])
+        }else{
+          return(the_data[-omitted_point,])
+        }
+        }&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Write a function &lt;code&gt;omit_and_est&lt;/code&gt; that takes the data with an omitted point and returns whatever function your estimator does.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;    omit_and_est &amp;lt;- function(omit) {
+          # This function should take the output of omit.case and use it as input for the estimator
+       estimator(omit.case(the_data,omit))
+
+    }&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;jackknife &amp;lt;- function(estimator,the_data) {
+  
+  if(is.null(dim(the_data))){
+    n=length(the_data)
+  }else{
+    n=nrow(the_data)
+  }
+  omit_and_est &amp;lt;- function(omit) {
+              # This function should take the output of omit.case and use it as input for the estimator
+           estimator(omit.case(the_data,omit))
+          
+        }
+  
+  
+  jackknife.ests &amp;lt;- matrix(sapply(1:n, omit_and_est), ncol=n)
+  var.of.reestimates &amp;lt;- apply(jackknife.ests,1,var)
+  jackknife.var &amp;lt;- ((n-1)^2/n)* var.of.reestimates
+  jackknife.stderr &amp;lt;- sqrt(jackknife.var)
+  return(jackknife.stderr)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;div id=&#34;it-works&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;It works&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean.jackknife &amp;lt;- function(a_vector) {
+  a&amp;lt;-rep(0,length(a_vector))
+  for (i in 1:length(a_vector)){
+    a[i]&amp;lt;-mean(a_vector[-i])
+  }
+  jackknife.variance&amp;lt;-((length(a_vector) - 1)/length(a_vector)) * sum((a - mean(a))^2)
+  jackknife.stderr&amp;lt;-sqrt(jackknife.variance)
+  return(jackknife.stderr)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;some_normals=rnorm(100,mean=7,sd=5)
+jackknife(estimator=mean,the_data=some_normals)
+all.equal(jackknife(estimator=mean,the_data=some_normals),
+          mean.jackknife(some_normals))&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(jackknife(estimator=gamma.est,the_data=data$input),
+          gamma.jackknife(data$input))&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(jackknife(estimator=gamma.est,the_data=data$input),
+          gamma.jackknife(data$input), check.names=FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;est.coefs &amp;lt;- function(the_data) {
+  return(lm(output~input,data=the_data)$coefficients)
+}
+est.coefs(data)
+all.equal(est.coefs(data), coefficients(my.lm))&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;jackknife(estimator=est.coefs,the_data=data)
+all.equal(jackknife(estimator=est.coefs,the_data=data),
+          jackknife.lm(df=data,formula=&amp;quot;output~input&amp;quot;,p=2))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;further-refactoring-of-jackknife&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Further Refactoring of jackknife()&lt;/h2&gt;
+&lt;p&gt;The code for &lt;code&gt;jackknife()&lt;/code&gt; is still a bit clunky: - Ugly &lt;code&gt;if-else&lt;/code&gt; for finding &lt;code&gt;n&lt;/code&gt; - Bit at the end for scaling variances down to standard errors&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;write a function that calculates the &lt;code&gt;n&lt;/code&gt; needed for the above code:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;  data_size &amp;lt;- function(the_data) {
+if (is.null(dim(the_data))){
+  n=length(the_data)
+}else{
+  n=nrow(the_data)
+}
+
+  }&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Write a funcrion that calculate the variance of all the estimates and returns the standard error&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;scale_and_sqrt_vars &amp;lt;- function(jackknife.ests,n) {
+  var=apply(jackknife.ests,1,var)
+  jackknife.var=(n-1)^2/n*var
+  jackknife.stderr=sqrt(jackknife.var)
+  return(jackknife.stderr)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;now-invoke-those-functions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Now invoke those functions&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;jackknife &amp;lt;- function(estimator,the_data) {
+  n &amp;lt;- data_size(the_data)
+  omit_and_est &amp;lt;- function(omit) {
+    estimator(omit.case(the_data,omit))
+  }
+  jackknife.ests &amp;lt;- matrix(sapply(1:n, omit_and_est), ncol=n)
+  return(scale_and_sqrt_vars(jackknife.ests,n))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>February 28, 2017 - In-Class Project</title>
-      <link>/post/february-28-2017-in-class-project/</link>
+      <link>https://vicchen1991.github.io/post/february-28-2017-in-class-project/</link>
       <pubDate>Mon, 06 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/february-28-2017-in-class-project/</guid>
+      <guid>https://vicchen1991.github.io/post/february-28-2017-in-class-project/</guid>
       <description>&lt;div id=&#34;section&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;1&lt;/h3&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ckm_nodes&amp;lt;-read.csv(&amp;quot;ckm_nodes.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
@@ -163,10 +375,10 @@ plot3$diff&amp;lt;-plot3$V1-plot3$V2
 plot(plot3[,1],type = &amp;quot;l&amp;quot;, ylab = &amp;quot;Proportion&amp;quot;,col=1, main=&amp;quot;Proportions in/after the month&amp;quot;)
 lines(plot3[,2],col=2)
 legend(&amp;quot;bottomright&amp;quot;,c(&amp;quot;in the month&amp;quot;,&amp;quot;after the month&amp;quot;),col=c(1,2),lwd=1)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vicchen1991.github.io/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot(plot3[,4],type=&amp;quot;l&amp;quot;, ylab = &amp;quot;Proportion&amp;quot;, main = &amp;quot;Difference Plot&amp;quot;)
 abline(h=0)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://vicchen1991.github.io/post/2017-03-06-february-28-2017-in-class-project_files/figure-html/unnamed-chunk-10-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The curve in the “Difference Plot” centers around the 0 line, which means the doctors who adopt in a given month do not consistently have more contacts who are already prescribing than the non-adopters.&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -175,10 +387,10 @@ abline(h=0)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>March 7, 2017 - Pre-Class</title>
-      <link>/post/March-7-2017-pre-class/</link>
+      <link>https://vicchen1991.github.io/post/March-7-2017-pre-class/</link>
       <pubDate>Sun, 05 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>/post/March-7-2017-pre-class/</guid>
+      <guid>https://vicchen1991.github.io/post/March-7-2017-pre-class/</guid>
       <description>&lt;!-- BLOGDOWN-HEAD --&gt;
 &lt;!-- /BLOGDOWN-HEAD --&gt;
 
@@ -195,9 +407,9 @@ abline(h=0)&lt;/code&gt;&lt;/pre&gt;
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;some_normals &amp;lt;- rnorm(100,mean=7,sd=5)
 mean(some_normals)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 7.206752&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 7.35254&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(formula_se_of_mean &amp;lt;- sd(some_normals)/sqrt(length(some_normals)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.4868469&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.5227524&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(formula_se_of_mean,mean.jackknife(some_normals))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
 </description>
@@ -205,10 +417,10 @@ mean(some_normals)&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>About</title>
-      <link>/about/</link>
+      <link>https://vicchen1991.github.io/about/</link>
       <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
       
-      <guid>/about/</guid>
+      <guid>https://vicchen1991.github.io/about/</guid>
       <description>&lt;p&gt;This is a &amp;ldquo;hello world&amp;rdquo; example website for the &lt;a href=&#34;https://github.com/rstudio/blogdown&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;blogdown&lt;/strong&gt;&lt;/a&gt; package. The theme was forked from &lt;a href=&#34;https://github.com/jrutheiser/hugo-lithium-theme&#34; target=&#34;_blank&#34;&gt;@jrutheiser/hugo-lithium-theme&lt;/a&gt; and modified by &lt;a href=&#34;https://github.com/yihui/hugo-lithium-theme&#34; target=&#34;_blank&#34;&gt;Yihui Xie&lt;/a&gt;.&lt;/p&gt;
 </description>
     </item>

@@ -26,13 +26,13 @@
   <link rel="stylesheet" href="/css/hugo-academic.css">
   
 
-  <link rel="alternate" href="/post/index.xml" type="application/rss+xml" title="Chang Chen ScM">
-  <link rel="feed" href="/post/index.xml" type="application/rss+xml" title="Chang Chen ScM">
+  <link rel="alternate" href="https://vicchen1991.github.io/post/index.xml" type="application/rss+xml" title="Chang Chen ScM">
+  <link rel="feed" href="https://vicchen1991.github.io/post/index.xml" type="application/rss+xml" title="Chang Chen ScM">
 
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 
-  <link rel="canonical" href="/post/">
+  <link rel="canonical" href="https://vicchen1991.github.io/post/">
 
   
 
@@ -129,7 +129,37 @@
   
   <div>
     
-    <h2><a href="/post/february-28-2017-in-class-project/">February 28, 2017 - In-Class Project</a></h2>
+    <h2><a href="https://vicchen1991.github.io/post/march-7-2017-in-class-project/">March 7, 2017 In-Class Project</a></h2>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-03-13 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Mon, Mar 13, 2017
+    </time>
+  </span>
+
+  
+
+  
+
+  
+
+</div>
+
+    <div class="article-style"><p>
+      
+      Jackknife for Gamma Parameters Recall our friend the method of moments estimator:
+gamma.est &lt;- function(the_data) { m &lt;- mean(the_data) v &lt;- var(the_data) a &lt;- m^2/v s &lt;- v/m return(c(a=a,s=s)) } Jackknife for Gamma Parameters Function Write a function called gamma.jackknife that takes argument a_vector and returns jackknife standard error estimates on the gamma parameters.
+gamma.jackknife &lt;- function(a_vector) { n1=length(a_vector) estimate_a=c(n1) estimate_s=c(n1) for(i in 1:n1) { estimate_a[i]=gamma.est(a_vector[-i])[1] estimate_s[i]=gamma.est(a_vector[-i])[2] } se_a=sqrt((var(estimate_a))<em>((n1-1)^2)/n1) se_s=sqrt((var(estimate_s))</em>((n1-1)^2)/n1) jackknife.
+      
+    </p></div>
+  </div>
+  
+  <div>
+    
+    <h2><a href="https://vicchen1991.github.io/post/february-28-2017-in-class-project/">February 28, 2017 - In-Class Project</a></h2>
     
 
 <div class="article-metadata">
@@ -157,7 +187,7 @@
   
   <div>
     
-    <h2><a href="/post/March-7-2017-pre-class/">March 7, 2017 - Pre-Class</a></h2>
+    <h2><a href="https://vicchen1991.github.io/post/March-7-2017-pre-class/">March 7, 2017 - Pre-Class</a></h2>
     
 
 <div class="article-metadata">
@@ -194,9 +224,9 @@
 }</code></pre>
 <pre class="r"><code>some_normals &lt;- rnorm(100,mean=7,sd=5)
 mean(some_normals)</code></pre>
-<pre><code>## [1] 7.206752</code></pre>
+<pre><code>## [1] 7.35254</code></pre>
 <pre class="r"><code>(formula_se_of_mean &lt;- sd(some_normals)/sqrt(length(some_normals)))</code></pre>
-<pre><code>## [1] 0.4868469</code></pre>
+<pre><code>## [1] 0.5227524</code></pre>
 <pre class="r"><code>all.equal(formula_se_of_mean,mean.jackknife(some_normals))</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 

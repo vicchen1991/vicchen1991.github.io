@@ -26,13 +26,13 @@
   <link rel="stylesheet" href="/css/hugo-academic.css">
   
 
-  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Chang Chen ScM">
-  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Chang Chen ScM">
+  <link rel="alternate" href="https://vicchen1991.github.io/index.xml" type="application/rss+xml" title="Chang Chen ScM">
+  <link rel="feed" href="https://vicchen1991.github.io/index.xml" type="application/rss+xml" title="Chang Chen ScM">
 
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
 
-  <link rel="canonical" href="/">
+  <link rel="canonical" href="https://vicchen1991.github.io/">
 
   
 
@@ -333,6 +333,13 @@
     <h1>Recent Posts</h1>
     
     
+    <p class="view-all">
+      <a href="/post/">
+        More Posts
+        <i class="fa fa-angle-double-right"></i>
+      </a>
+    </p>
+    
 
   </div>
   <div class="col-xs-12 col-md-8">
@@ -349,7 +356,50 @@
   
   
   <h3 class="article-title" itemprop="name">
-    <a href="/post/february-28-2017-in-class-project/" itemprop="url">February 28, 2017 - In-Class Project</a>
+    <a href="https://vicchen1991.github.io/post/march-7-2017-in-class-project/" itemprop="url">March 7, 2017 In-Class Project</a>
+  </h3>
+  
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-03-13 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Mon, Mar 13, 2017
+    </time>
+  </span>
+
+  
+
+  
+
+  
+
+</div>
+
+  <div class="article-style" itemprop="articleBody">
+    
+    Jackknife for Gamma Parameters Recall our friend the method of moments estimator:
+gamma.est &lt;- function(the_data) { m &lt;- mean(the_data) v &lt;- var(the_data) a &lt;- m^2/v s &lt;- v/m return(c(a=a,s=s)) } Jackknife for Gamma Parameters Function Write a function called gamma.jackknife that takes argument a_vector and returns jackknife standard error estimates on the gamma parameters.
+gamma.jackknife &lt;- function(a_vector) { n1=length(a_vector) estimate_a=c(n1) estimate_s=c(n1) for(i in 1:n1) { estimate_a[i]=gamma.est(a_vector[-i])[1] estimate_s[i]=gamma.est(a_vector[-i])[2] } se_a=sqrt((var(estimate_a))*((n1-1)^2)/n1) se_s=sqrt((var(estimate_s))*((n1-1)^2)/n1) jackknife.
+    
+  </div>
+  <p class="read-more">
+    <a href="https://vicchen1991.github.io/post/march-7-2017-in-class-project/" class="btn btn-primary btn-outline">
+      CONTINUE READING
+    </a>
+  </p>
+</div>
+
+      
+        
+        
+
+
+<div class="article-list-item" itemscope itemprop="blogPost">
+  
+  
+  <h3 class="article-title" itemprop="name">
+    <a href="https://vicchen1991.github.io/post/february-28-2017-in-class-project/" itemprop="url">February 28, 2017 - In-Class Project</a>
   </h3>
   
 
@@ -375,69 +425,7 @@
     
   </div>
   <p class="read-more">
-    <a href="/post/february-28-2017-in-class-project/" class="btn btn-primary btn-outline">
-      CONTINUE READING
-    </a>
-  </p>
-</div>
-
-      
-        
-        
-
-
-<div class="article-list-item" itemscope itemprop="blogPost">
-  
-  
-  <h3 class="article-title" itemprop="name">
-    <a href="/post/March-7-2017-pre-class/" itemprop="url">March 7, 2017 - Pre-Class</a>
-  </h3>
-  
-
-<div class="article-metadata">
-
-  <span class="article-date">
-    <time datetime="2017-03-05 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-      Sun, Mar 5, 2017
-    </time>
-  </span>
-
-  
-
-  
-
-  
-
-</div>
-
-  <div class="article-style" itemprop="articleBody">
-    
-    <!-- BLOGDOWN-HEAD -->
-<!-- /BLOGDOWN-HEAD -->
-
-<!-- BLOGDOWN-BODY-BEFORE -->
-<!-- /BLOGDOWN-BODY-BEFORE -->
-<pre class="r"><code> mean.jackknife &lt;- function(a_vector) {
-  vec&lt;-rep(0,length(a_vector))
-  for (i in 1:length(a_vector)){
-    vec[i]&lt;-mean(a_vector[-i])
-  }
-  jackknife.variance&lt;-((length(a_vector) - 1)/length(a_vector)) * sum((vec - mean(vec))^2)
-  jackknife.stderr&lt;-sqrt(jackknife.variance)
-  return(jackknife.stderr)
-}</code></pre>
-<pre class="r"><code>some_normals &lt;- rnorm(100,mean=7,sd=5)
-mean(some_normals)</code></pre>
-<pre><code>## [1] 7.206752</code></pre>
-<pre class="r"><code>(formula_se_of_mean &lt;- sd(some_normals)/sqrt(length(some_normals)))</code></pre>
-<pre><code>## [1] 0.4868469</code></pre>
-<pre class="r"><code>all.equal(formula_se_of_mean,mean.jackknife(some_normals))</code></pre>
-<pre><code>## [1] TRUE</code></pre>
-
-    
-  </div>
-  <p class="read-more">
-    <a href="/post/March-7-2017-pre-class/" class="btn btn-primary btn-outline">
+    <a href="https://vicchen1991.github.io/post/february-28-2017-in-class-project/" class="btn btn-primary btn-outline">
       CONTINUE READING
     </a>
   </p>
